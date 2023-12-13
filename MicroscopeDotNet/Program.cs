@@ -1,11 +1,17 @@
+using MicroscopeDotNet;
 using MicroscopeDotNet.Client.Pages;
 using MicroscopeDotNet.Components;
+using MicroscopeDotNet.Hubs;
+using MicroscopeDotNet.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<ICameraService, CameraService>();
+
 
 var app = builder.Build();
 
@@ -25,7 +31,7 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
-
+app.MapHub<CameraHub>("/cameraHub");
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(Counter).Assembly);

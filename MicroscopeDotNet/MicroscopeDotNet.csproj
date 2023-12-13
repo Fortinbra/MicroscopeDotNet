@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MMALSharp" Version="0.6.0" />
+    <PackageReference Include="MMALSharp.FFmpeg" Version="0.6.0" />
     <ProjectReference Include="..\MicroscopeDotNet.Client\MicroscopeDotNet.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0" />
   </ItemGroup>

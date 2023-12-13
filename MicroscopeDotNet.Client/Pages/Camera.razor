@@ -1,0 +1,28 @@
+@page "/Camera"
+
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager NavigationManager
+
+<video id="videoElement" autoplay></video>
+
+@code {
+	private string? imgSrc;
+
+	protected override async Task OnInitializedAsync()
+    {
+
+
+var hubConnection = new HubConnectionBuilder()
+	.WithUrl(NavigationManager.BaseUri + "cameraHub")
+	.Build();
+hubConnection.On<byte[]>("ReceiveVideoStream", (videoStream) =>
+        {
+
+			imgSrc = $"data:image/jpeg;base64,{Convert.ToBase64String(videoStream)}";
+
+			StateHasChanged(); // Notify Blazor the state has changed
+		});
+
+        await hubConnection.StartAsync();
+    }
+}
